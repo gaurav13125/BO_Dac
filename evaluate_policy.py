@@ -96,7 +96,7 @@ def f_decodelabels(data):
 ##########################################
 
 
-def initialize_func:
+def initialize_func():
 	start = time.time()
 	voltage_levels=[0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]
 	#8 levels
@@ -170,7 +170,42 @@ def function_evaluate_policy(policy_vfi1, policy_vfi2, policy_vfi3, policy_vfi4 
 	w3=policy_vfi3
 	w4=policy_vfi4
 
-	initialize_func()
+	#initialize_func()
+	start = time.time()
+	voltage_levels=[0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]
+	#8 levels
+	fol='/net/ugrads/gnarang/pvt/dvfi/bo/'
+
+
+	###############
+	## initial x ##
+	x_init=np.zeros((4,5)) # 4 VFI anf 5 features
+	for i in range(4):
+		#x_init[i]=[0.32,0.67, 0.45, 0.90, 0.65] #you can use random too
+        	x_init[i] = np.random.rand(1,5)
+	print('seed/initial x given => ',x_init)
+
+	x=np.zeros((4,5))
+
+	##############
+
+
+	num_inputs=5
+	num_neurons=20
+	num_actions=8
+	
+	n_layer1_weights = num_inputs*num_neurons
+	n_layer2_weights = num_neurons*num_neurons
+	n_output_weights = num_neurons*num_actions
+	
+	regressor_size=n_layer1_weights+n_layer2_weights+n_output_weights
+	#weights
+	regressor=np.random.rand(1,regressor_size)
+	#print("regressor is",regressor)
+
+
+
+	##################################
 
 	for k in range(len(workload)):
 		print('======='+workload[k]+'=======')
@@ -318,6 +353,7 @@ def function_evaluate_policy(policy_vfi1, policy_vfi2, policy_vfi3, policy_vfi4 
 	print('=> Evaluate Program time elapsed=' , end - start)
 
 	return total_edp, simsec_sum # add PPW ?
+
 
 
 
